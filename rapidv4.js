@@ -27,6 +27,18 @@ function ClearLog() {
     _log_output.selectionEnd = 0;
 }
 
+function RequestPause() {
+    _is_running = false;
+    _start_button.innerHTML = "スタート";
+    DebugLog("[INFO]: RequestPause(): 次のフレーム開始前で停止します。");
+}
+
+function RequestResume() {
+    _is_running = true;
+    _start_button.innerHTML = "ストップ";
+    DebugLog("[INFO]: RequestResume(): 再開。");
+}
+
 // Initialization
 function SetCanvasSize(w, h) {
     if(_is_init) {
@@ -49,11 +61,9 @@ function _onStartButtonMouseUp(e) {
 
     if(typeof e === 'object' && e.button == 0) {
         if(_is_running) {
-            _is_running = false;
-            _start_button.innerHTML = "スタート";
+            RequestPause();
         } else {
-            _is_running = true;
-            _start_button.innerHTML = "ストップ";
+            RequestResume();
         }
     }
 }

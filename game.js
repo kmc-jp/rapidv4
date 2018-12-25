@@ -5,6 +5,7 @@ function init() {
 
 function start() {
     DebugLog("hogehoge");
+    RequestPause();
 }
 
 function update() {
