@@ -13,8 +13,9 @@ var DeltaTime = 0;
 // rapidv4 APIs
 // Debug
 function DebugLog(message) {
-    _log_output.html(message, true);
-    _log_output.html("\n", true);
+    _log_output.value = _log_output.value + message + "\n";
+    _log_output.focus();
+    _log_output.selectionEnd += message.length;
 }
 
 // Initialization
@@ -32,12 +33,11 @@ function SetCanvasSize(w, h) {
 function setup() {
     // Initialize rapidv4
     init();
-    createCanvas(CanvasWidth, CanvasHeight);
+    var _rapidv4_canvas = createCanvas(CanvasWidth, CanvasHeight);
+    _rapidv4_canvas.parent('rapidv4Canvas');
 
-    _log_output = createElement("textarea", "rapidv4 - 0.1.0\n");
-    _log_output.attribute("rows", "8");
-    //_log_output.attribute("cols", "42");
-    _log_output.attribute("readonly", "true");
+    _log_output = document.getElementById('logOutput');
+    DebugLog("rapidv4 - 0.1.0");
 
     // Log initialization
     // Canvas size
