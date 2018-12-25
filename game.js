@@ -1,5 +1,6 @@
 function init() {
-    
+    SetCanvasSize(640, 480);
+    frameRate(30);
 }
 
 function start() {
@@ -7,7 +8,7 @@ function start() {
 }
 
 function update() {
-
+    DebugLog("DeltaTime: " + DeltaTime);
 }
 
 function render() {

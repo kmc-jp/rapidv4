@@ -8,6 +8,7 @@ var _is_init;
 // Graphics
 var CanvasHeight = 600;
 var CanvasWidth = 800;
+var DeltaTime = 0;
 
 // rapidv4 APIs
 // Debug
@@ -47,9 +48,19 @@ function setup() {
 }
 
 function draw() {
+    // Get frame start time
+    var _t_fstart = millis();
+
+    // Clear canvas
     background(0);
     
+    // Update states
     update();
 
+    // Draw whatever
     render();
+
+    // Get frame end time and calculate delta time
+    var _t_fend = millis();
+    DeltaTime = _t_fend - _t_fstart;
 }
