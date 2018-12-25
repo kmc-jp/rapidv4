@@ -1,9 +1,11 @@
 // Gloal variables
 // Debug
+var _start_button;
 var _log_output;
 
 // System
 var _is_init;
+var _is_running = false;
 var _t_fstart = 0;
 var _t_fend = 0;
 
@@ -36,10 +38,35 @@ function SetCanvasSize(w, h) {
     CanvasHeight = h;
 }
 
+// End of APIs
+
+// Callbacks
+function _onStartButtonMouseUp(e) {
+    // Listen to events if rapidv4 is already initialized
+    if(!_is_init) {
+        return;
+    }
+
+    if(typeof e === 'object' && e.button == 0) {
+        if(_is_running) {
+            _is_running = false;
+            _start_button.innerHTML = "スタート";
+        } else {
+            _is_running = true;
+            _start_button.innerHTML = "ストップ";
+        }
+    }
+}
+
 // p5.js routines
 function setup() {
     // Initialize rapidv4
     frameRate(30);
+
+    // Set callbacks for panel buttons
+    _start_button = document.getElementById('startButton');
+    _start_button.innerHTML = "ストップ";
+    _start_button.addEventListener('mouseup', _onStartButtonMouseUp);
 
     // Log initialization
     _log_output = document.getElementById('logOutput');
@@ -53,6 +80,11 @@ function setup() {
     DebugLog("[OKAY]: キャンバスを作成しました。")
     DebugLog("Canvas size (width, height) = (" + CanvasWidth, + ", " + CanvasHeight + ")");
 
+    // End of initialization
+    DebugLog("[OKAY]: 初期化が完了しました。");
+    _is_init = true;
+    _is_running = true;
+
     // Execute start function
     start();
 }
@@ -64,12 +96,14 @@ function draw() {
     // Get frame start time
     _t_fstart = millis();
 
-    // Clear canvas
-    background(0);
+    if(_is_running) {
+        // Clear canvas
+        background(0);
     
-    // Update states
-    update();
+        // Update states
+        update();
 
-    // Draw whatever
-    render();
+        // Draw whatever
+        render();
+    }
 }
