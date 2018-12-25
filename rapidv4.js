@@ -20,6 +20,11 @@ function DebugLog(message) {
     _log_output.selectionEnd += message.length;
 }
 
+function ClearLog() {
+    _log_output.value = "";
+    _log_output.selectionEnd = 0;
+}
+
 // Initialization
 function SetCanvasSize(w, h) {
     if(_is_init) {
@@ -36,16 +41,15 @@ function setup() {
     // Initialize rapidv4
     frameRate(30);
 
+    // Log initialization
+    _log_output = document.getElementById('logOutput');
+    ClearLog();
+    DebugLog("rapidv4 - 0.1.0");
+
     // User initialization override
     init();
     var _rapidv4_canvas = createCanvas(CanvasWidth, CanvasHeight);
     _rapidv4_canvas.parent('rapidv4Canvas');
-
-    _log_output = document.getElementById('logOutput');
-    DebugLog("rapidv4 - 0.1.0");
-
-    // Log initialization
-    // Canvas size
     DebugLog("Canvas size (width, height) = (" + CanvasWidth, + ", " + CanvasHeight + ")");
 
     // Execute start function
