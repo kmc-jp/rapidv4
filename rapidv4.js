@@ -4,6 +4,8 @@ var _log_output;
 
 // System
 var _is_init;
+var _t_fstart = 0;
+var _t_fend = 0;
 
 // Graphics
 var CanvasHeight = 600;
@@ -32,6 +34,9 @@ function SetCanvasSize(w, h) {
 // p5.js routines
 function setup() {
     // Initialize rapidv4
+    frameRate(30);
+
+    // User initialization override
     init();
     var _rapidv4_canvas = createCanvas(CanvasWidth, CanvasHeight);
     _rapidv4_canvas.parent('rapidv4Canvas');
@@ -48,8 +53,11 @@ function setup() {
 }
 
 function draw() {
+    // Get frame end time and calculate delta time
+    _t_fend = millis();
+    DeltaTime = (_t_fend - _t_fstart) / 1000;
     // Get frame start time
-    var _t_fstart = millis();
+    _t_fstart = millis();
 
     // Clear canvas
     background(0);
@@ -59,8 +67,4 @@ function draw() {
 
     // Draw whatever
     render();
-
-    // Get frame end time and calculate delta time
-    var _t_fend = millis();
-    DeltaTime = _t_fend - _t_fstart;
 }
