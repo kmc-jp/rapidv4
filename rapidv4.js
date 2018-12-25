@@ -78,7 +78,7 @@ function setup() {
     var _rapidv4_canvas = createCanvas(CanvasWidth, CanvasHeight);
     _rapidv4_canvas.parent('rapidv4Canvas');
     DebugLog("[OKAY]: キャンバスを作成しました。")
-    DebugLog("Canvas size (width, height) = (" + CanvasWidth, + ", " + CanvasHeight + ")");
+    DebugLog("Canvas size (width, height) = (" + CanvasWidth + ", " + CanvasHeight + ")");
 
     // End of initialization
     DebugLog("[OKAY]: 初期化が完了しました。");
