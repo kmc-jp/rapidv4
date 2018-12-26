@@ -9,7 +9,7 @@ function start() {
 }
 
 function update() {
-    DebugLog("DeltaTime: " + DeltaTime);
+    DebugLog("DeltaTime: " + GetDeltaTime());
     DebugLog("GetFrameCount() = " + GetFrameCount());
 }
 

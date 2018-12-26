@@ -9,11 +9,11 @@ var _is_running = true;
 var _t_fstart = 0;
 var _t_fend = 0;
 var _frame_count = 0;
-var DeltaTime = 0;
+var _delta_time = 0;
 
 // Graphics
-var CanvasHeight = 600;
-var CanvasWidth = 800;
+var _canvas_height = 600;
+var _canvas_width = 800;
 var _c_background = 0;
 
 // rapidv4 APIs
@@ -48,13 +48,25 @@ function SetCanvasSize(w, h) {
         DebugLog("キャンバスサイズを変更したい場合はresizeCanvas()を呼び出してください。");
         return;
     }
-    CanvasWidth = w;
-    CanvasHeight = h;
+    _canvas_width = w;
+    _canvas_height = h;
 }
 
 // Graphics
 function GetFrameCount() {
     return _frame_count;
+}
+
+function GetCanvasWidth() {
+    return _canvas_width;
+}
+
+function GetCanvasHeight() {
+    return _canvas_height;
+}
+
+function GetDeltaTime() {
+    return _delta_time;
 }
 
 function SetBackgroundColor(c) {
@@ -102,10 +114,10 @@ function preload() {
 }
 
 function setup() {
-    var _rapidv4_canvas = createCanvas(CanvasWidth, CanvasHeight);
+    var _rapidv4_canvas = createCanvas(_canvas_width, _canvas_height);
     _rapidv4_canvas.parent('rapidv4Canvas');
     DebugLog("[OKAY]: キャンバスを作成しました。")
-    DebugLog("Canvas size (width, height) = (" + CanvasWidth + ", " + CanvasHeight + ")");
+    DebugLog("Canvas size (width, height) = (" + _canvas_width + ", " + _canvas_height + ")");
 
     // End of initialization
     DebugLog("[OKAY]: 初期化が完了しました。");
@@ -122,7 +134,7 @@ function setup() {
 function draw() {
     // Get frame end time and calculate delta time
     _t_fend = millis();
-    DeltaTime = (_t_fend - _t_fstart) / 1000;
+    _delta_time = (_t_fend - _t_fstart) / 1000;
     // Get frame start time
     _t_fstart = millis();
 
