@@ -14,6 +14,7 @@ var DeltaTime = 0;
 // Graphics
 var CanvasHeight = 600;
 var CanvasWidth = 800;
+var _c_background = 0;
 
 // rapidv4 APIs
 // Debug
@@ -54,6 +55,10 @@ function SetCanvasSize(w, h) {
 // Graphics
 function GetFrameCount() {
     return _frame_count;
+}
+
+function SetBackgroundColor(c) {
+    _c_background = c;
 }
 
 // End of APIs
@@ -123,7 +128,7 @@ function draw() {
 
     if(_is_running) {
         // Clear canvas
-        background(0);
+        background(_c_background);
     
         // Update states
         update();
