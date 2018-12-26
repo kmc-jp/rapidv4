@@ -4,7 +4,7 @@ var _start_button;
 var _log_output;
 
 // System
-var _is_init;
+var _is_init = false;
 var _is_running = false;
 var _t_fstart = 0;
 var _t_fend = 0;
