@@ -58,18 +58,16 @@ function RequestResume() {
 // Initialization
 /**
  * キャンバスサイズを設定します。
- * この関数はinit()の中でのみ呼ぶことができます。
  * @param {number} w キャンバスの幅（ピクセル）
  * @param {number} h キャンバスの高さ（ピクセル）
  */
 function SetCanvasSize(w, h) {
-    if(_is_init) {
-        DebugLog("[WARN]: SetCanvasSize()はrapidv4の初期化前に呼ぶ必要があります。");
-        DebugLog("キャンバスサイズを変更したい場合はresizeCanvas()を呼び出してください。");
-        return;
-    }
     _canvas_width = w;
     _canvas_height = h;
+    if(_is_init) {
+        // If rapidv4 is already initialized, we must call resizeCanvas()
+        resizeCanvas(_canvas_width, _canvas_height);
+    }
 }
 
 // Graphics
@@ -82,7 +80,7 @@ function GetFrameCount() {
 }
 
 /**
- * 設定されたキャンバス幅を取得します。
+ * 現在のキャンバス幅を取得します。
  * @returns {number} キャンバスの幅（ピクセル）
  */
 function GetCanvasWidth() {
@@ -90,7 +88,7 @@ function GetCanvasWidth() {
 }
 
 /**
- * 設定されたキャンバスの高さを取得します。
+ * 現在のキャンバスの高さを取得します。
  * @returns {number} キャンバスの高さ（ピクセル）
  */
 function GetCanvasHeight() {
