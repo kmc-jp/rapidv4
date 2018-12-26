@@ -18,23 +18,37 @@ var _c_background = 0;
 
 // rapidv4 APIs
 // Debug
+/**
+ * デバッグ出力に1行メッセージを出力します。
+ * @param {string} message 出力するメッセージ
+ */
 function DebugLog(message) {
     _log_output.value = _log_output.value + message + "\n";
     _log_output.focus();
     _log_output.selectionEnd += message.length;
 }
 
+/**
+ * デバッグ出力をすべて消します。
+ */
 function ClearLog() {
     _log_output.value = "";
     _log_output.selectionEnd = 0;
 }
 
+/**
+ * ゲームの実行停止を予約します。
+ * このAPIが呼ばれると、次のフレームの開始直前で実行が一時停止されます。
+ */
 function RequestPause() {
     _is_running = false;
     _start_button.innerHTML = "スタート";
     DebugLog("[INFO]: RequestPause(): 次のフレーム開始前で停止します。");
 }
 
+/**
+ * ゲームの実行を再開します。
+ */
 function RequestResume() {
     _is_running = true;
     _start_button.innerHTML = "ストップ";
@@ -42,6 +56,12 @@ function RequestResume() {
 }
 
 // Initialization
+/**
+ * キャンバスサイズを設定します。
+ * この関数はinit()の中でのみ呼ぶことができます。
+ * @param {number} w キャンバスの幅（ピクセル）
+ * @param {number} h キャンバスの高さ（ピクセル）
+ */
 function SetCanvasSize(w, h) {
     if(_is_init) {
         DebugLog("[WARN]: SetCanvasSize()はrapidv4の初期化前に呼ぶ必要があります。");
@@ -53,22 +73,42 @@ function SetCanvasSize(w, h) {
 }
 
 // Graphics
+/**
+ * 現在の経過フレーム数を取得します。
+ * @returns {number} 現在の経過フレーム数
+ */
 function GetFrameCount() {
     return _frame_count;
 }
 
+/**
+ * 設定されたキャンバス幅を取得します。
+ * @returns {number} キャンバスの幅（ピクセル）
+ */
 function GetCanvasWidth() {
     return _canvas_width;
 }
 
+/**
+ * 設定されたキャンバスの高さを取得します。
+ * @returns {number} キャンバスの高さ（ピクセル）
+ */
 function GetCanvasHeight() {
     return _canvas_height;
 }
 
+/**
+ * 直前のフレーム処理時間を取得します。
+ * @returns {number} 直前のフレーム処理時間（秒）
+ */
 function GetDeltaTime() {
     return _delta_time;
 }
 
+/**
+ * 背景色を設定します。
+ * @param {number} c 色を表す数値（p5.jsのcolor()などで取得できる。）
+ */
 function SetBackgroundColor(c) {
     _c_background = c;
 }
