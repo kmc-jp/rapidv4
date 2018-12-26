@@ -10,6 +10,7 @@ var _t_fstart = 0;
 var _t_fend = 0;
 var _frame_count = 0;
 var _delta_time = 0;
+var _is_first_frame = true;
 
 // Graphics
 var _canvas_height = 600;
@@ -96,7 +97,8 @@ function GetCanvasHeight() {
 }
 
 /**
- * 直前のフレーム処理時間を取得します。
+ * 直前のフレーム描画開始から、現在のフレームの処理およびフレーム待ちまでの時間を取得します。
+ * render()以外の場所では意味のある値が得られないので、render()で取得してください。
  * @returns {number} 直前のフレーム処理時間（秒）
  */
 function GetDeltaTime() {
@@ -173,20 +175,27 @@ function draw() {
     // Get frame end time and calculate delta time
     _t_fend = millis();
     _delta_time = (_t_fend - _t_fstart) / 1000;
+
     // Get frame start time
     _t_fstart = millis();
-
     if(_is_running) {
+        // Render
         // Clear canvas
         background(_c_background);
+        // Draw whatever
+        if(_is_first_frame) {
+            // Skip rendereing for the first frame
+            _is_first_frame = false;
+        } else {
+            render();
+            // Increment frame counter
+            _frame_count += 1;
+        }
     
+        // Update
         // Update states
         update();
 
-        // Draw whatever
-        render();
-
-        // Increment frame counter
-        _frame_count += 1;
+        // Delay
     }
 }

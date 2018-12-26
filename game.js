@@ -1,3 +1,5 @@
+var pos_x = 32;
+
 function init() {
     SetCanvasSize(640, 480);
     frameRate(30);
@@ -9,11 +11,13 @@ function start() {
 }
 
 function update() {
-    DebugLog("DeltaTime: " + GetDeltaTime());
     DebugLog("GetFrameCount() = " + GetFrameCount());
 }
 
 function render() {
+    DebugLog("DeltaTime: " + GetDeltaTime());
+    pos_x += 32 * GetDeltaTime();
+
     fill(255);
-    rect(32, 32, 64, 64);
+    rect(pos_x, 32, 64, 64);
 }
