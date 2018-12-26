@@ -8,11 +8,11 @@ var _is_init = false;
 var _is_running = false;
 var _t_fstart = 0;
 var _t_fend = 0;
+var DeltaTime = 0;
 
 // Graphics
 var CanvasHeight = 600;
 var CanvasWidth = 800;
-var DeltaTime = 0;
 
 // rapidv4 APIs
 // Debug
