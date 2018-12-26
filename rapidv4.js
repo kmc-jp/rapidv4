@@ -5,7 +5,7 @@ var _log_output;
 
 // System
 var _is_init = false;
-var _is_running = false;
+var _is_running = true;
 var _t_fstart = 0;
 var _t_fend = 0;
 var _frame_count = 0;
@@ -75,7 +75,7 @@ function _onStartButtonMouseUp(e) {
 }
 
 // p5.js routines
-function setup() {
+function preload() {
     // Initialize rapidv4
     frameRate(30);
 
@@ -90,7 +90,13 @@ function setup() {
     DebugLog("rapidv4 - 0.1.0");
 
     // User initialization override
+    DebugLog("[INFO]: init()を実行しています...");
     init();
+    DebugLog("[OKAY]: init()を完了しました。");
+    DebugLog("[OKAY]: preload()完了。");
+}
+
+function setup() {
     var _rapidv4_canvas = createCanvas(CanvasWidth, CanvasHeight);
     _rapidv4_canvas.parent('rapidv4Canvas');
     DebugLog("[OKAY]: キャンバスを作成しました。")
@@ -99,10 +105,13 @@ function setup() {
     // End of initialization
     DebugLog("[OKAY]: 初期化が完了しました。");
     _is_init = true;
-    _is_running = true;
 
     // Execute start function
+    DebugLog("[INFO]: start()を実行しています...");
     start();
+    DebugLog("[OKAY]: start()を完了しました。");
+    DebugLog("[OKAY]: setup()完了。");
+    DebugLog("[INFO]: メインループの実行を開始します。");
 }
 
 function draw() {
