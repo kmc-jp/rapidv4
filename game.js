@@ -10,6 +10,7 @@ function start() {
 
 function update() {
     DebugLog("DeltaTime: " + DeltaTime);
+    DebugLog("GetFrameCount() = " + GetFrameCount());
 }
 
 function render() {

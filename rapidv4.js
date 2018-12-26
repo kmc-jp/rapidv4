@@ -8,6 +8,7 @@ var _is_init = false;
 var _is_running = false;
 var _t_fstart = 0;
 var _t_fend = 0;
+var _frame_count = 0;
 var DeltaTime = 0;
 
 // Graphics
@@ -48,6 +49,11 @@ function SetCanvasSize(w, h) {
     }
     CanvasWidth = w;
     CanvasHeight = h;
+}
+
+// Graphics
+function GetFrameCount() {
+    return _frame_count;
 }
 
 // End of APIs
@@ -115,5 +121,8 @@ function draw() {
 
         // Draw whatever
         render();
+
+        // Increment frame counter
+        _frame_count += 1;
     }
 }
