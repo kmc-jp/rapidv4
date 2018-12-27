@@ -75,19 +75,29 @@ function GetTextHeight() {
 class RectRenderer extends Renderer {
     /**
      * 長方形を描画するRenderer。
+     * c_fill, c_strokeにnullを指定すると、それぞれ塗りつぶし、枠線描画を行いません。
      * @param {Rect} r 座標、範囲指定用Rect
      * @param {number} c_fill 塗りつぶしの色
      * @param {number} c_stroke 枠線の色
      */
-    constructor(r, c_fill, c_stroke) {
+    constructor(r, c_fill=null, c_stroke=null) {
         super(r);
         this._fill_color = c_fill;
         this._stroke_color = c_stroke
     }
 
     _do_render() {
-        fill(this._fill_color);
-        stroke(this._stroke_color);
+        if(this._fill_color === null) {
+            noFill();
+        } else {
+            fill(this._fill_color);
+        }
+        if(this._stroke_color === null) {
+            noStroke();
+        } else {
+            stroke(this._stroke_color);
+        }
+
         rect(-this._rect.width/2, -this._rect.height/2, this._rect.width, this._rect.height);
     }
 }
@@ -95,12 +105,13 @@ class RectRenderer extends Renderer {
 class EllipseRenderer extends Renderer {
     /**
      * だ円を描画するRenderer。
-     * 円弧や扇形も描画できる（setArcStyle()参照）。
+     * c_fill, c_strokeにnullを指定すると、それぞれ塗りつぶし、枠線描画を行いません。
+     * 円弧や扇形も描画できます（setArcStyle()参照）。
      * @param {Rect} r 座標、範囲指定用Rect
      * @param {number} c_fill 塗りつぶしの色
      * @param {number} c_stroke 枠線の色
      */
-    constructor(r, c_fill, c_stroke) {
+    constructor(r, c_fill=null, c_stroke=null) {
         super(r);
         this._fill_color = c_fill;
         this._stroke_color = c_stroke
@@ -129,8 +140,17 @@ class EllipseRenderer extends Renderer {
     }
 
     _do_render() {
-        fill(this._fill_color);
-        stroke(this._stroke_color);
+        if(this._fill_color === null) {
+            noFill();
+        } else {
+            fill(this._fill_color);
+        }
+        if(this._stroke_color === null) {
+            noStroke();
+        } else {
+            stroke(this._stroke_color);
+        }
+
         if(this._is_advanced_style) {
             arc(0, 0, this._rect.width, this._rect.height, this._start_rad, this._end_rad, this._arc_mode);
         } else {
@@ -142,6 +162,7 @@ class EllipseRenderer extends Renderer {
 class TextRenderer extends Renderer {
     /**
      * 文字列を描画するRenderer。
+     * c_fill, c_strokeにnullを指定すると、それぞれ塗りつぶし、枠線描画を行いません。
      * automodeでR_MANUAL以外が指定された場合は、以下の規則に従って描画幅と高さが文字サイズに合わせて自動的に計算されます。
      * その場合、rに指定されている幅と高さは無視されます。
      * automodeの初期値はR_AUTORECTです。
@@ -155,7 +176,7 @@ class TextRenderer extends Renderer {
      * @param {number} c_stroke 文字（外枠）の色
      * @param {number} audomode 自動計算設定
      */
-    constructor(r, t, c_fill, c_stroke, automode=R_AUTORECT) {
+    constructor(r, t, c_fill=null, c_stroke=null, automode=R_AUTORECT) {
         var _rct_temp = new Rect(r._x_orig, r._y_orig);
         if(automode == R_AUTOHEIGHT || automode == R_AUTORECT) {
             _rct_temp.height = GetTextHeight();
@@ -172,8 +193,17 @@ class TextRenderer extends Renderer {
     }
 
     _do_render() {
-        fill(this._fill_color);
-        stroke(this._stroke_color);
+        if(this._fill_color === null) {
+            noFill();
+        } else {
+            fill(this._fill_color);
+        }
+        if(this._stroke_color === null) {
+            noStroke();
+        } else {
+            stroke(this._stroke_color);
+        }
+
         text(this._text, -this._rect.width/2, -this._rect.height/2);
     }
 }
