@@ -28,7 +28,10 @@ class Rect {
      * @param {number} h 高さ
      * @param {number} mode 座標の基準はどこか？
      */
-    constructor(x, y, w, h, mode=RM_CENTER) {
+    constructor(x, y, w=0, h=0, mode=RM_CENTER) {
+        this._x_orig = x;
+        this._y_orig = y;
+        this._mode = mode;
         switch(mode) {
             case RM_CENTER:
                 this._x = x - w/2;
@@ -76,11 +79,81 @@ class Rect {
         this._h = h;
     }
 
+    set x(x_p) {
+        this._x = x_p;
+    }
+    get x() {
+        return this._x;
+    }
+
+    set y(y_p) {
+        this._y = y_p;
+    }
+    get y() {
+        return this._y;
+    }
+
+    set width(w) {
+        this._w = w;
+    }
     get width() {
         return this._w;
     }
+
+    set height(h) {
+        this._h = h;
+    }
     get height() {
         return this._h;
+    }
+
+    /**
+     * 現在の_x_orig, _y_orig, _w, _h, _modeに基づいて_x, _yを再計算します。
+     */
+    recalculate() {
+        switch(this._mode) {
+            case RM_CENTER:
+                this._x = this._x_orig - this._w/2;
+                this._y = this._y_orig - this._h/2;
+                break;
+            case RM_TOPLEFT:
+                this._x = this._x_orig;
+                this._y = this._y_orig;
+                break;
+            case RM_TOP:
+                this._x = this._x_orig - this._w/2;
+                this._y = this._y_orig;
+                break;
+            case RM_TOPRIGHT:
+                this._x = this._x_orig - this._w;
+                this._y = this._y_orig;
+                break;
+            case RM_LEFT:
+                this._x = this._x_orig;
+                this._y = this._y_orig - this._h/2;
+                break;
+            case RM_RIGHT:
+                this._x = this._x_orig - this._w;
+                this._y = this._y_orig - this._h/2;
+                break;
+            case RM_BOTTOMLEFT:
+                this._x = this._x_orig;
+                this._y = this._y_orig - this._h;
+                break;
+            case RM_BOTTOM:
+                this._x = this._x_orig - this._w/2;
+                this._y = this._y_orig - this._h;
+                break;
+            case RM_BOTTOMRIGHT:
+                this._x = this._x_orig - this._w;
+                this._y = this._y_orig - this._h;
+                break;
+            default:
+                DebugLog("[WARN]: Rect(): 不明なRectMode " + mode + " です。");
+                this._x = this._x_orig - this._w/2;
+                this._y = this._y_orig - this._h/2;
+                break;
+        }
     }
 
     /**
