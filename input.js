@@ -166,6 +166,13 @@ function mousePressed() {
         return;
     }
 
+    if(mouseX < 0 || mouseX >= GetCanvasWidth()) {
+        return;
+    }
+    if(mouseY < 0 || mouseY >= GetCanvasHeight()) {
+        return;
+    }
+
     switch(mouseButton) {
         case LEFT:
             _mouse_states["left"] = true;
@@ -184,6 +191,13 @@ function mousePressed() {
 
 function mouseReleased() {
     if(_mouse_state_lock) {
+        return;
+    }
+
+    if(mouseX < 0 || mouseX >= GetCanvasWidth()) {
+        return;
+    }
+    if(mouseY < 0 || mouseY >= GetCanvasHeight()) {
         return;
     }
 
