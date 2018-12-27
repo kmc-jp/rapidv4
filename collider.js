@@ -47,7 +47,33 @@ class RectCollider extends Collider {
                     return false;
                 }
             case _HIT_CIRCLE:
-            break;
+                if(this._rect.getX(RM_LEFT) <= subj._rect.getX(RM_CENTER) && subj._rect.getX(RM_CENTER) <= this._rect.getX(RM_RIGHT)) {
+                    if(abs(this._rect.getY(RM_CENTER) - subj._rect.getY(RM_CENTER)) <= this._rect.height/2 + subj._rect.width/2) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if(this._rect.getY(RM_TOP) <= subj._rect.getY(RM_CENTER) && subj._rect.getY(RM_CENTER) <= this._rect.getY(RM_BOTTOM)) {
+                    if(abs(this._rect.getX(RM_CENTER) - subj._rect.getX(RM_CENTER)) <= this._rect.width/2 + subj._rect.width/2) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if(dist(this._rect.getX(RM_TOPLEFT), this._rect.getY(RM_TOPLEFT), subj._rect.getX(RM_CENTER), subj._rectgetY(RM_CENTER)) <= subj._rect.width/2) {
+                        return true;
+                    }
+                    if(dist(this._rect.getX(RM_TOPRIGHT), this._rect.getY(RM_TOPRIGHT), subj._rect.getX(RM_CENTER), subj._rectgetY(RM_CENTER)) <= subj._rect.width/2) {
+                        return true;
+                    }
+                    if(dist(this._rect.getX(RM_BOTTOMLEFT), this._rect.getY(RM_BOTTOMLEFT), subj._rect.getX(RM_CENTER), subj._rectgetY(RM_CENTER)) <= subj._rect.width/2) {
+                        return true;
+                    }
+                    if(dist(this._rect.getX(RM_BOTTOMRIGHT), this._rect.getY(RM_BOTTOMRIGHT), subj._rect.getX(RM_CENTER), subj._rectgetY(RM_CENTER)) <= subj._rect.width/2) {
+                        return true;
+                    }
+                    return false;
+                }
             case _HIT_POINT:
                 if(abs(this._rect.getX(RM_CENTER) - subj._rect.getX(RM_CENTER)) <= this._rect.width/2 &&
                 abs(this._rect.getY(RM_CENTER) - subj._rect.getY(RM_CENTER)) <= this._rect.height/2) {
@@ -78,7 +104,33 @@ class CircleCollider extends Collider {
     isHit(subj) {
         switch(subj._c_type) {
             case _HIT_RECT:
-            break;
+                if(subj._rect.getX(RM_LEFT) <= this._rect.getX(RM_CENTER) && this._rect.getX(RM_CENTER) <= subj._rect.getX(RM_RIGHT)) {
+                    if(abs(this._rect.getY(RM_CENTER) - subj._rect.getY(RM_CENTER)) <= subj._rect.height/2 + this._rect.width/2) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else if(subj._rect.getY(RM_TOP) <= this._rect.getY(RM_CENTER) && this._rect.getY(RM_CENTER) <= subj._rect.getY(RM_BOTTOM)) {
+                    if(abs(this._rect.getX(RM_CENTER) - subj._rect.getX(RM_CENTER)) <= subj._rect.width/2 + this._rect.width/2) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    if(dist(subj._rect.getX(RM_TOPLEFT), subj._rect.getY(RM_TOPLEFT), this._rect.getX(RM_CENTER), this._rectgetY(RM_CENTER)) <= this._rect.width/2) {
+                        return true;
+                    }
+                    if(dist(subj._rect.getX(RM_TOPRIGHT), subj._rect.getY(RM_TOPRIGHT), this._rect.getX(RM_CENTER), this._rectgetY(RM_CENTER)) <= this._rect.width/2) {
+                        return true;
+                    }
+                    if(dist(subj._rect.getX(RM_BOTTOMLEFT), subj._rect.getY(RM_BOTTOMLEFT), this._rect.getX(RM_CENTER), this._rectgetY(RM_CENTER)) <= this._rect.width/2) {
+                        return true;
+                    }
+                    if(dist(subj._rect.getX(RM_BOTTOMRIGHT), subj._rect.getY(RM_BOTTOMRIGHT), this._rect.getX(RM_CENTER), this._rectgetY(RM_CENTER)) <= this._rect.width/2) {
+                        return true;
+                    }
+                    return false;
+                }
             case _HIT_CIRCLE:
                 if(dist(this._rect.getX(RM_CENTER), this._rect.getY(RM_CENTER),
                 subj._rect.getX(RM_CENTER), subj._rect.getY(RM_CENTER)) <= this._rect.width/2 + subj._rect.width/2) {
