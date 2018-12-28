@@ -1,27 +1,37 @@
+// 定数
+// ブロックの幅と高さ
+var b_width = 32;
+var b_height = 32;
+// 点滅周波数（Hz）
+var fc_blink = 2;
+
 class Block extends Character {
     constructor(r, col) {
         var block_renderer;
         switch(col) {
             case -1:
-                block_renderer = new RectRenderer(null, color(128, 128, 128), color(0, 0, 0));
+                block_renderer = new RectRenderer(new Rect(0, 0, b_width-1, b_height-1, RM_TOPLEFT), color(128, 128, 128), color(0, 0, 0));
                 break;
             case 1:
-                block_renderer = new RectRenderer(null, color(255, 0, 0), color(0, 0, 0));
+                block_renderer = new RectRenderer(new Rect(0, 0, b_width-1, b_height-1, RM_TOPLEFT), color(255, 0, 0), color(0, 0, 0));
                 break;
             case 2:
-                block_renderer = new RectRenderer(null, color(0, 0, 255), color(0, 0, 0));
+                block_renderer = new RectRenderer(new Rect(0, 0, b_width-1, b_height-1, RM_TOPLEFT), color(0, 0, 255), color(0, 0, 0));
                 break;
             case 3:
-                block_renderer = new RectRenderer(null, color(0, 255, 0), color(0, 0, 0));
+                block_renderer = new RectRenderer(new Rect(0, 0, b_width-1, b_height-1, RM_TOPLEFT), color(0, 255, 0), color(0, 0, 0));
                 break;
             case 4:
-                block_renderer = new RectRenderer(null, color(255, 255, 0), color(0, 0, 0));
+                block_renderer = new RectRenderer(new Rect(0, 0, b_width-1, b_height-1, RM_TOPLEFT), color(255, 255, 0), color(0, 0, 0));
                 break;
         }
         super(r, block_renderer);
 
         this._kind = col;
-        this.applyRectToRenderer();
+    }
+
+    get kind() {
+        return this._kind;
     }
 }
 
@@ -98,13 +108,6 @@ var snd_clear;
 // スポーン効果音
 var snd_spawn;
 
-// 定数
-// ブロックの幅と高さ
-var b_width = 32;
-var b_height = 32;
-// 点滅周波数（Hz）
-var fc_blink = 2;
-
 function init() {
     SetCanvasSize(800, 500);
     SetBackgroundColor(color(255, 255, 255));
@@ -128,10 +131,10 @@ function start() {
     for(var x=0; x<8; x++) {
         for(var y=0; y<12; y++) {
             // ES6だと、配列の要素の初期値は未定義っぽい
-            blocks[x + y * 8] = 0;
+            blocks[x + y * 8] = null;
             if((x == 0 || x == 7) ||
             (y == 0 || y == 11)) {
-                blocks[x + y * 8] = -1;
+                blocks[x + y * 8] = new Block(new Rect(32 + b_width*x - b_width/2, 400 - b_height*(y+1) + b_height/2, 0, 0, RM_TOPLEFT), -1);
             }
         }
     }
@@ -139,7 +142,7 @@ function start() {
     // y <= 3までとりあえず生成
     for(var x=1; x<7; x++) {
         for(var y=1; y<4; y++) {
-            blocks[x + y * 8] = floor(random(1, 5));
+            blocks[x + y * 8] = new Block(new Rect(32 + b_width*x - b_width/2, 400 - b_height*(y+1) + b_height/2, 0, 0, RM_TOPLEFT), floor(random(1, 5)));
         }
     }
 
@@ -168,9 +171,9 @@ function update() {
         }
     }
     // ブロックが色ブロック（ピース）だったらBFSで同じ色の隣接したブロックを探索する
-    if(blocks[b_x + b_y * 8] >= 1) {
+    if(blocks[b_x + b_y * 8] !== null && blocks[b_x + b_y * 8].kind != -1) {
         // 色を保存
-        var c_clr = blocks[b_x + b_y * 8];
+        var c_clr = blocks[b_x + b_y * 8].kind;
         // もう見たので探索済みにする
         s_blks[b_x + b_y * 8] = 1;
         // 周りを調べるので予約する
@@ -194,15 +197,15 @@ function update() {
                 continue;
             }
             // 調べている場所が壁か何もないなら周りを調べない
-            if(blocks[current.x + current.y * 8] <= 0) {
+            if(blocks[current.x + current.y * 8] === null || blocks[current.x + current.y * 8].kind == -1) {
                 continue;
             }
             // 調べている場所の色が違うなら周りを調べない
-            if(blocks[current.x + current.y * 8] != c_clr) {
+            if(blocks[current.x + current.y * 8].kind != c_clr) {
                 continue;
             }
             // 調べている場所の色が同じなら探索済みフラグを1にして周りを調べることにする
-            if(blocks[current.x + current.y * 8] == c_clr) {
+            if(blocks[current.x + current.y * 8].kind == c_clr) {
                 // ここに来たら複数のブロックが同じ色だったということになる
                 is_mult_blks = true;
                 s_blks[current.x + current.y * 8] = 1;
@@ -231,7 +234,7 @@ function update() {
         for(var x=1; x<7; x++) {
             for(var y=1; y<11; y++) {
                 if(s_blks[x + y * 8] == 1) {
-                    blocks[x + y * 8] = 0;
+                    blocks[x + y * 8] = null;
                     b_cleared++;
                     p_score += 7*b_cleared;
                 }
@@ -257,7 +260,7 @@ function update() {
         for(var y=1; y<11; y++) {
             if(!is_top_detected) {
                 // 空白だったらその直下が一番上のブロック
-                if(blocks[x + y * 8] == 0) {
+                if(blocks[x + y * 8] === null) {
                     y_top = y-1;
                     is_top_detected = true;
                 }
@@ -272,7 +275,10 @@ function update() {
         // ちなみにy_floatingが検出されなかったらこのループは実行されないようになっている
         for(var y=y_floating; y<11; y++) {
             blocks[x + (y-(y_floating-y_top-1)) * 8] = blocks[x + y * 8];
-            blocks[x + y * 8] = 0;
+            if(blocks[x + (y-(y_floating-y_top-1)) * 8] !== null) {
+                blocks[x + (y-(y_floating-y_top-1)) * 8].setPosition(32 + b_width*x - b_width/2, 400 - b_height*(y-(y_floating-y_top-1)+1) + b_height/2);
+            }
+            blocks[x + y * 8] = null;
         }
     }
 
@@ -284,8 +290,8 @@ function update() {
         for(var x=1; x<7; x++) {
             for(var y=10; y>=0; y--) {
                 // ブロックか壁が下にあったら新しいブロックをスポーンする
-                if(blocks[x + y * 8] >= 1 || blocks[x + y * 8] == -1) {
-                    blocks[x + (y+1) * 8] = floor(random(1,5));
+                if(blocks[x + y * 8] !== null) {
+                    blocks[x + (y+1) * 8] = new Block(new Rect(32 + b_width*x - b_width/2, 400 - b_height*((y+1)+1) + b_height/2, 0, 0, RM_TOPLEFT), floor(random(1, 5)));
                     break;
                 }
             }
@@ -304,7 +310,7 @@ function update() {
     // ゲームオーバー処理
     // 座標y=11にブロックが配置されたら負け
     for(var x=1; x<7; x++) {
-        if(blocks[x + 11 * 8] != -1) {
+        if(blocks[x + 11 * 8].kind != -1) {
             // フラグを立てて、ゲームループを停止する
             is_gameover = true;
             StopGame();
@@ -321,41 +327,17 @@ function render() {
     // フィールド
     for(var x=0; x<8; x++) {
         for(var y=0; y<12; y++) {
-            switch(blocks[x + y * 8]) {
-                // 壁
-                case -1:
-                fill(128, 128, 128);
-                stroke(0, 0, 0);
-                break;
-                // 赤
-                case 1:
-                fill(255, 0, 0);
-                stroke(0, 0, 0);
-                break;
-                // 青
-                case 2:
-                fill(0, 0, 255);
-                stroke(0, 0, 0);
-                break;
-                // 緑
-                case 3:
-                fill(0, 255, 0);
-                stroke(0, 0, 0);
-                break;
-                // 黄
-                case 4:
-                fill(255, 255, 0);
-                stroke(0, 0, 0);
-                break;
+            if(blocks[x + y * 8] === null) {
+                continue;
             }
             if(frameCount % (30 / fc_blink) >= 15 / fc_blink) {
                 if(s_blks[x + y * 8] == 1) {
-                    stroke(255, 255, 255);
+                    blocks[x + y * 8].renderer._stroke_color = color(255, 255, 255);
                 }
+            } else {
+                blocks[x + y * 8].renderer._stroke_color = color(0, 0, 0);
             }
-            if(blocks[x + y * 8] != 0) {
-                rect(32 + b_width*x - b_width/2, 400 - b_height*(y+1) + b_height/2, b_width - 1, b_height - 1);
-            }
+            blocks[x + y * 8].render();
         }
     }
     // スコア表示
