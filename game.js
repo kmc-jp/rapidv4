@@ -18,6 +18,8 @@ function init() {
 
     AddKey(90, "Z");
     AddKey(88, "X");
+
+    RequestPause();
 }
 
 function start() {
