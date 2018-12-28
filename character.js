@@ -1,6 +1,7 @@
 class Character {
     /**
      * ゲーム内のモノを定義するためのクラス。renderer, colliderをセットしないか、nullを渡した場合はそれらの属性は使用されません。
+     * RendererおよびColliderの座標はrの位置およびsetPosition()で指定される位置を原点として、自動的に変更されます。
      * @param {Rect} r 位置や範囲を表すRect
      * @param {Renderer} renderer 描画に用いるRenderer
      * @param {Collider} collider 当たり判定に用いるCollider
@@ -17,7 +18,7 @@ class Character {
      * @param {number} ny 新しいY座標
      */
     setPosition(nx, ny) {
-        this._rect.setPositionAndMode(x, y, this._rect.mode);
+        this._rect.setPositionAndMode(nx, ny, this._rect.mode);
         this._rect.recalculate();
     }
 
@@ -41,35 +42,14 @@ class Character {
     }
 
     /**
-     * CharacterのRectをRendererにも設定します。Rendererがない場合は無視されます。
-     * Rendererの設定によっては、幅・高さが無視される場合があります（R_AUTORECT指定時など）。
-     */
-    applyRectToRenderer() {
-        if(this._renderer === null) {
-            return;
-        }
-
-        this._renderer.setRect(this._rect);
-    }
-
-    /**
-     * CharacterのRectをColliderにも設定します。Colliderがない場合は無視されます。
-     */
-    applyRectToCollider() {
-        if(this._collider === null) {
-            return;
-        }
-
-        this._collider._rect = this._rect;
-    }
-
-    /**
      * Charecterを描画します。Rendererがない場合は無視されます。
      */
     render() {
         if(this._renderer === null) {
             return;
         }
+
+        this._renderer.setOffset(this._rect.xOrigin, this._rect.yOrigin);
 
         this._renderer.render();
     }
@@ -93,6 +73,8 @@ class Character {
         if(this._collider === null) {
             return;
         }
+
+        this._collider.setOffset(this._rect.xOrigin, this._rect.yOrigin);
 
         return this._collider.isHit(chr._collider);
     }

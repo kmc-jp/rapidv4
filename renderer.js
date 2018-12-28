@@ -10,6 +10,8 @@ class Renderer {
      */
     constructor(r=null) {
         this._rect = r;
+        this._x_offset = 0;
+        this._y_offset = 0;
         this._zoom_x = 1;
         this._zoom_y = 1;
         this._rotation = 0;
@@ -23,6 +25,16 @@ class Renderer {
      */
     setRect(r) {
         this._rect = r;
+    }
+
+    /**
+     * 描画位置の原点からのオフセットを設定します。
+     * @param {number} x X座標のオフセット
+     * @param {number} y Y座標のオフセット
+     */
+    setOffset(x, y) {
+        this._x_offset = x;
+        this._y_offset = y;
     }
 
     /**
@@ -92,8 +104,8 @@ class Renderer {
             sin(this._rotation) + this._zoom_y * cos(this._rotation) * tan(-this._shear_y),
             -sin(this._rotation) + this._zoom_x * cos(this._rotation) * tan(-this._shear_x),
             this._zoom_y * cos(this._rotation) + sin(this._rotation) * tan(-this._shear_x),
-            this._rect.getX(RM_CENTER),
-            this._rect.getY(RM_CENTER)
+            this._rect.getX(RM_CENTER) + this._x_offset,
+            this._rect.getY(RM_CENTER) + this._y_offset
         );
         this._do_render();
         resetMatrix();

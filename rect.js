@@ -79,6 +79,14 @@ class Rect {
         this._h = h;
     }
 
+    get xOrigin() {
+        return this._x_orig;
+    }
+
+    get yOrigin() {
+        return this._y_orig;
+    }
+
     get x() {
         return this._x;
     }
