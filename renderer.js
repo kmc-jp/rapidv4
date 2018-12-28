@@ -17,27 +17,59 @@ class Renderer {
         this._shear_y = 0;
     }
 
+    /**
+     * 描画に用いるRectを設定します。
+     * @param {Rect} r 新しいRect
+     */
+    setRect(r) {
+        this._rect = r;
+    }
+
+    /**
+     * X軸方向の拡大（縮小）率を設定します。
+     * @param {number} z 拡大率
+     */
     setZoomX(z) {
         this._zoom_x = z;
     }
 
+    /**
+     * Y軸方向の拡大（縮小）率を設定します。
+     * @param {number} z 拡大率
+     */
     setZoomY(z) {
         this._zoom_y = z;
     }
 
+    /**
+     * すべての軸方向の拡大（縮小）率を設定します。
+     * @param {number} z 拡大率
+     */
     setZoom(z) {
         this.setZoomX(z);
         this.setZoomY(z);
     }
 
+    /**
+     * Z軸に対する回転角度（時計回りが正）を設定します。
+     * @param {number} r 回転角度（ラジアン）
+     */
     setRotation(r) {
         this._rotation = r;
     }
 
+    /**
+     * X軸方向のせん断変換角度を設定します。
+     * @param {number} r せん断角度（ラジアン）
+     */
     setShearX(r) {
         this._shear_x = r;
     }
 
+    /**
+     * Y軸方向のせん断変換角度を設定します。
+     * @param {number} r せん断角度（ラジアン）
+     */
     setShearY(r) {
         this._shear_y = r;
     }

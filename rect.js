@@ -101,6 +101,13 @@ class Rect {
         return this._h;
     }
 
+    set mode(m) {
+        this._mode = m;
+    }
+    get mode() {
+        return this._mode;
+    }
+
     /**
      * 現在の_x_orig, _y_orig, _w, _h, _modeに基づいて_x, _yを再計算します。
      */
