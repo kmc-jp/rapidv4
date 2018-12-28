@@ -59,13 +59,6 @@ class Character {
     }
 
     /**
-     * CharacterのRectからRectColliderを作成し、Characterに設定します。
-     */
-    createRectColliderFromRect() {
-        this._collider = new RectCollider(this._rect);
-    }
-
-    /**
      * 指定したCharacterとの当たり判定を行います。Colliderがない場合は無視されます。
      * @param {Character} chr 当たり判定をする相手のCharacter
      */
