@@ -233,18 +233,19 @@ function draw() {
         }
     
         // Update
-        // Lock input states
-        _lock_key_input_state();
-        _lock_mouse_input_state();
-        // Update states
-        update();
-
+        // Sample input states
+        _sample_key_input_state();
+        _sample_mouse_input_state();
         // Update previous input state
         _rotate_key_input_state();
         _rotate_mouse_input_state();
-        // Unlock input states
-        _unlock_key_input_state();
-        _unlock_mouse_input_state();
+        // Update states
+        update();
+
+        // Recheck input states
+        _recheck_key_input_state();
+        _recheck_mouse_input_state();
+
         // Delay
     }
 }

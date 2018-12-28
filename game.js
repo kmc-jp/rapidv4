@@ -36,13 +36,15 @@ function start() {
 }
 
 function update() {
-    DebugLog("GetFrameCount() = " + GetFrameCount());
+    //DebugLog("GetFrameCount() = " + GetFrameCount());
     myrect = new Rect(32, 32, 64, 64, RM_TOPLEFT);
 
     if(IsKeyPushed("X") || IsMouseButtonPushed("left")) {
         myrenderer = new RectRenderer(myrect, color(255, 0, 0), color(0, 0, 0));
+        DebugLog("Push");
     } else if(IsKeyReleased("X") || IsMouseButtonReleased("left")) {
         myrenderer = new RectRenderer(myrect, color(0, 255, 255), color(0, 0, 0));
+        DebugLog("Release");
     } else {
         myrenderer = new RectRenderer(myrect, color(255, 255, 255), color(0, 0, 0));
     }
@@ -69,7 +71,7 @@ function update() {
 }
 
 function render() {
-    DebugLog("DeltaTime: " + GetDeltaTime());
+    //DebugLog("DeltaTime: " + GetDeltaTime());
     myrotation += TWO_PI * 0.25 * GetDeltaTime();
 
     myrenderer.render();
