@@ -79,16 +79,10 @@ class Rect {
         this._h = h;
     }
 
-    set x(x_p) {
-        this._x = x_p;
-    }
     get x() {
         return this._x;
     }
 
-    set y(y_p) {
-        this._y = y_p;
-    }
     get y() {
         return this._y;
     }
@@ -234,5 +228,27 @@ class Rect {
                 DebugLog("[WARN]: Rect(): 不明なRectMode " + mode + " です。");
                 return this._y + this._h/2;
         }
+    }
+
+    /**
+     * Rectの座標を設定します。
+     * modeの指定は次の通り。デフォルトはRM_CENTER
+     * - RM_CENTER: 長方形の中心
+     * - RM_TOPLEFT: 左上
+     * - RM_TOP: 上辺の中点
+     * - RM_TOPRIGHT: 右上
+     * - RM_LEFT: 左側面の辺の中点
+     * - RM_RIGHT: 右側面の辺の中点
+     * - RM_BOTTOMLEFT: 左下
+     * - RM_BOTTOM: 下辺の中点
+     * - RM_BOTTOMRIGHT: 右下
+     * @param {number} x 新しいX座標
+     * @param {number} y 新しいY座標
+     * @param {number} mode 座標の基準はどこか？
+     */
+    setPositionAndMode(x, y, mode=RM_CENTER) {
+        this._x_orig = x;
+        this._y_orig = y;
+        this._mode = mode;
     }
 }
