@@ -178,6 +178,7 @@ class Rect {
      * - RM_BOTTOM: 下辺の中点
      * - RM_BOTTOMRIGHT: 右下
      * @param {number} mode 座標の基準はどこか？
+     * @returns {number} 各部のX座標
      */
     getX(mode=RM_CENTER) {
         switch(mode) {
@@ -218,6 +219,7 @@ class Rect {
      * - RM_BOTTOM: 下辺の中点
      * - RM_BOTTOMRIGHT: 右下
      * @param {number} mode 座標の基準はどこか？
+     * @returns {number} 各部のY座標
      */
     getY(mode=RM_CENTER) {
         switch(mode) {

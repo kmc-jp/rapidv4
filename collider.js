@@ -31,6 +31,7 @@ class Collider {
     /**
      * 当たり判定を行います。
      * @param {Collider} subj 当たり判定を行う対象の領域
+     * @returns {boolean} 当たっているか？
      */
     isHit(subj) {
         return false;
@@ -50,6 +51,7 @@ class RectCollider extends Collider {
     /**
      * 当たり判定を行います。
      * @param {Collider} subj 当たり判定を行う対象の領域
+     * @returns {boolean} 当たっているか？
      */
     isHit(subj) {
         switch(subj._c_type) {
@@ -114,6 +116,7 @@ class CircleCollider extends Collider {
     /**
      * 当たり判定を行います。
      * @param {Collider} subj 当たり判定を行う対象の領域
+     * @returns {boolean} 当たっているか？
      */
     isHit(subj) {
         switch(subj._c_type) {
@@ -178,6 +181,7 @@ class PointCollider extends Collider {
     /**
      * 当たり判定を行います。
      * @param {Collider} subj 当たり判定を行う対象の領域
+     * @returns {boolean} 当たっているか？
      */
     isHit(subj) {
         switch(subj._c_type) {

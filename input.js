@@ -33,6 +33,7 @@ function AddKey(keycode, keyname) {
  * キーの現在の状態を取得します。
  * update()以外では正しい値が取得できません。
  * @param {string} keyname 登録したキーの名前
+ * @returns {boolean} キーが押されているか？
  */
 function GetKey(keyname) {
     if(_key_states_s[keyname] == _I_PUSHED || _key_states_s[keyname] == _I_HIGH) {
@@ -46,6 +47,7 @@ function GetKey(keyname) {
  * キーが押された状態に変わったかどうかを取得します。
  * update()以外では正しい値が取得できません。
  * @param {string} keyname 登録したキーの名前
+ * @returns {boolean} キーが押された状態にかわったか？
  */
 function IsKeyPushed(keyname) {
     if(_key_states_s[keyname] == _I_PUSHED) {
@@ -59,6 +61,7 @@ function IsKeyPushed(keyname) {
  * キーが離された状態に変わったかどうかを取得します。
  * update()以外では正しい値が取得できません。
  * @param {string} keyname 登録したキーの名前
+ * @returns {boolean} キーが離された状態にかわったか？
  */
 function IsKeyReleased(keyname) {
     if(_key_states_s[keyname] == _I_RELEASED) {
@@ -75,6 +78,7 @@ function IsKeyReleased(keyname) {
  * - "middle": 中央ボタン（ホイール）
  * - "right": 右ボタン
  * @param {string} bname マウスボタンの名前
+ * @returns {boolean} キーが押されているか？
  */
 function GetMouseButton(bname) {
     if(_mouse_states_s[bname] == _I_PUSHED || _mouse_states_s[bname] == _I_HIGH) {
@@ -91,6 +95,7 @@ function GetMouseButton(bname) {
  * - "middle": 中央ボタン（ホイール）
  * - "right": 右ボタン
  * @param {string} bname マウスボタンの名前
+ * @returns {boolean} キーが押された状態にかわったか？
  */
 function IsMouseButtonPushed(bname) {
     if(_mouse_states_s[bname] == _I_PUSHED) {
@@ -107,6 +112,7 @@ function IsMouseButtonPushed(bname) {
  * - "middle": 中央ボタン（ホイール）
  * - "right": 右ボタン
  * @param {string} bname マウスボタンの名前
+ * @returns {boolean} キーが離された状態にかわったか？
  */
 function IsMouseButtonReleased(bname) {
     if(_mouse_states_s[bname] == _I_RELEASED) {

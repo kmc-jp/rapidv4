@@ -61,6 +61,7 @@ class Character {
     /**
      * 指定したCharacterとの当たり判定を行います。Colliderがない場合は無視されます。
      * @param {Character} chr 当たり判定をする相手のCharacter
+     * @returns {boolean} 当たっているか？
      */
     isHitBy(chr) {
         if(this._collider === null) {
