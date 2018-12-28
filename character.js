@@ -42,13 +42,14 @@ class Character {
 
     /**
      * CharacterのRectをRendererにも設定します。Rendererがない場合は無視されます。
+     * Rendererの設定によっては、幅・高さが無視される場合があります（R_AUTORECT指定時など）。
      */
     applyRectToRenderer() {
         if(this._renderer === null) {
             return;
         }
 
-        this._renderer._rect = this._rect;
+        this._renderer.setRect(this._rect);
     }
 
     /**
@@ -92,7 +93,7 @@ class Character {
         if(this._collider === null) {
             return;
         }
-        
+
         return this._collider.isHit(chr._collider);
     }
 

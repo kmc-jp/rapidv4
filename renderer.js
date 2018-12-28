@@ -222,6 +222,22 @@ class TextRenderer extends Renderer {
         this._fill_color = c_fill;
         this._stroke_color = c_stroke
         this._text = t;
+        this._automode = automode;
+    }
+
+    /**
+     * 描画に用いるRectを設定します。幅・高さの扱いはautomodeに依存します。
+     * @param {Rect} r 新しいRect
+     */
+    setRect(r) {
+        this._rect.setPositionAndMode(r._x_orig, r._y_orig, r._mode);
+        if(this._automode == R_AUTOWIDTH || this._automode == R_MANUAL) {
+            this._rect.height = r.height;
+        }
+        if(this._automode == R_AUTOHEIGHT || this._automode == R_MANUAL) {
+            this._rect.width = r.width;
+        }
+        this._rect.recalculate();
     }
 
     _do_render() {
@@ -266,6 +282,22 @@ class ImageRenderer extends Renderer {
         super(_rct_temp);
         
         this._image = img;
+        this._automode = automode;
+    }
+
+    /**
+     * 描画に用いるRectを設定します。幅・高さの扱いはautomodeに依存します。
+     * @param {Rect} r 新しいRect
+     */
+    setRect(r) {
+        this._rect.setPositionAndMode(r._x_orig, r._y_orig, r._mode);
+        if(this._automode == R_AUTOWIDTH || this._automode == R_MANUAL) {
+            this._rect.height = r.height;
+        }
+        if(this._automode == R_AUTOHEIGHT || this._automode == R_MANUAL) {
+            this._rect.width = r.width;
+        }
+        this._rect.recalculate();
     }
 
     _do_render() {
