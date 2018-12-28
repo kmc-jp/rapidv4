@@ -28,8 +28,9 @@ function start() {
 
     // Create a character
     myrect2 = new Rect(GetCanvasWidth() / 2, GetCanvasHeight() / 2, 0, 0);
-    myimagerenderer = new ImageRenderer(myrect2, myimage);
+    myimagerenderer = new ImageRenderer(myimage);
     mycharacter = new Character(myrect2, myimagerenderer);
+    mycharacter.applyRectToRenderer();
 }
 
 function update() {
@@ -45,9 +46,9 @@ function update() {
     }
     
     if(GetKey("Z")) {
-        mytextrenderer = new TextRenderer(myrect2, "せやな〜", color(255, 0, 128), color(255, 0, 128));
+        mytextrenderer = new TextRenderer("せやな〜", myrect2, color(255, 0, 128), color(255, 0, 128));
     } else {
-        mytextrenderer = new TextRenderer(myrect2, "せやな〜", null, color(255, 0, 128));
+        mytextrenderer = new TextRenderer("せやな〜", myrect2, null, color(255, 0, 128));
     }
 
     myrenderer.setRotation(myrotation);
