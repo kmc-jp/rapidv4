@@ -3,10 +3,12 @@ _HIT_RECT = 1;
 _HIT_CIRCLE = 2;
 _HIT_POINT = 3;
 
+/**
+ * 当たり判定を提供するクラス。
+ * このクラスを継承して、当たり判定を実装します。
+ */
 class Collider {
     /**
-     * 当たり判定を提供するクラス。
-     * このクラスを継承して、当たり判定を実装します。
      * @param {Rect} r 当たり判定領域を表すRect
      */
     constructor(r) {
@@ -38,9 +40,11 @@ class Collider {
     }
 }
 
+/**
+ * 長方形による当たり判定領域を表すクラス。
+ */
 class RectCollider extends Collider {
     /**
-     * 長方形による当たり判定領域を表すクラス。
      * @param {Rect} r 当たり判定領域を表すRect
      */
     constructor(r) {
@@ -103,9 +107,11 @@ class RectCollider extends Collider {
     }
 }
 
+/**
+ * 円による当たり判定領域を表すクラス。
+ */
 class CircleCollider extends Collider {
     /**
-     * 円による当たり判定領域を表すクラス。
      * @param {Rect} r 当たり判定領域を表すRect（中心座標が円の中心、widthが直径として使われ、heightは無視されます）
      */
     constructor(r) {
@@ -168,9 +174,11 @@ class CircleCollider extends Collider {
     }
 }
 
+/**
+ * 点による当たり判定領域を表すクラス。
+ */
 class PointCollider extends Collider {
     /**
-     * 点による当たり判定領域を表すクラス。
      * @param {Rect} r 当たり判定領域を表すRect（Rectの中心座標が使われます）
      */
     constructor(r) {

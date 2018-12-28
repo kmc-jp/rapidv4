@@ -3,9 +3,12 @@ R_AUTOWIDTH = 1;
 R_AUTOHEIGHT = 2;
 R_AUTORECT = 3;
 
+/**
+ * 何かを描画するクラス（基底クラスとして使ってね）。
+ */
 class Renderer {
     /**
-     * 何かを描画するクラス（基底クラスとして使ってね）。rが指定されていないときは描画されません。
+     * rが指定されていないときは描画されません。
      * @param {Rect} r 描画範囲指定用Rect
      */
     constructor(r=null) {
@@ -120,9 +123,12 @@ function GetTextHeight() {
     return textAscent() + textDescent();
 }
 
+/**
+ * 長方形を描画するRenderer。
+ */
 class RectRenderer extends Renderer {
     /**
-     * 長方形を描画するRenderer。rが指定されていないときは描画されません。
+     * rが指定されていないときは描画されません。
      * c_fill, c_strokeにnullを指定すると、それぞれ塗りつぶし、枠線描画を行いません。
      * @param {Rect} r 座標、範囲指定用Rect
      * @param {number} c_fill 塗りつぶしの色
@@ -150,11 +156,13 @@ class RectRenderer extends Renderer {
     }
 }
 
+/**
+ * だ円を描画するRenderer。円弧や扇形も描画できます（setArcStyle()参照）。
+ */
 class EllipseRenderer extends Renderer {
     /**
-     * だ円を描画するRenderer。rが指定されていないときは描画されません。
+     * rが指定されていないときは描画されません。
      * c_fill, c_strokeにnullを指定すると、それぞれ塗りつぶし、枠線描画を行いません。
-     * 円弧や扇形も描画できます（setArcStyle()参照）。
      * @param {Rect} r 座標、範囲指定用Rect
      * @param {number} c_fill 塗りつぶしの色
      * @param {number} c_stroke 枠線の色
@@ -207,9 +215,12 @@ class EllipseRenderer extends Renderer {
     }
 }
 
+/**
+ * 文字列を描画するRenderer。
+ */
 class TextRenderer extends Renderer {
     /**
-     * 文字列を描画するRenderer。rが指定されていないときは描画されません。
+     * rが指定されていないときは描画されません。
      * c_fill, c_strokeにnullを指定すると、それぞれ塗りつぶし、枠線描画を行いません。
      * automodeでR_MANUAL以外が指定された場合は、以下の規則に従って描画幅と高さが文字サイズに合わせて自動的に計算されます。
      * その場合、rに指定されている幅と高さは無視されます。
@@ -286,9 +297,12 @@ class TextRenderer extends Renderer {
     }
 }
 
+/** 
+ * 画像を描画するRenderer。
+ */
 class ImageRenderer extends Renderer {
     /**
-     * 画像を描画するRenderer。rが指定されていないときは描画されません。
+     * rが指定されていないときは描画されません。
      * automodeでR_MANUAL以外が指定された場合は、以下の規則に従って描画幅と高さが画像に合わせて自動的に計算されます。
      * その場合、rに指定されている幅と高さは無視されます。
      * automodeの初期値はR_AUTORECTです。

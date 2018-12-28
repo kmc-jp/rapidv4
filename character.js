@@ -1,7 +1,10 @@
+/**
+ * ゲーム内のモノを定義するためのクラス。RendererとColliderを一つのオブジェクトの統合します。
+ * RendererおよびColliderの座標はrの位置およびsetPosition()で指定される位置を原点として、自動的に変更されます。
+ */
 class Character {
     /**
-     * ゲーム内のモノを定義するためのクラス。renderer, colliderをセットしないか、nullを渡した場合はそれらの属性は使用されません。
-     * RendererおよびColliderの座標はrの位置およびsetPosition()で指定される位置を原点として、自動的に変更されます。
+     * renderer, colliderをセットしないか、nullを渡した場合はそれらの属性は使用されません。
      * @param {Rect} r 位置や範囲を表すRect
      * @param {Renderer} renderer 描画に用いるRenderer
      * @param {Collider} collider 当たり判定に用いるCollider

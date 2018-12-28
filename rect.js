@@ -8,10 +8,11 @@ RM_BOTTOMLEFT = 6
 RM_BOTTOM = 7
 RM_BOTTOMRIGHT = 8
 
-
+/**
+ * 長方形を表すクラス。座標の指定や範囲の指定に用います。
+ */
 class Rect {
     /**
-     * 長方形を表すデータ構造。座標の指定や範囲の指定に用いる。
      * modeの指定は次の通り。デフォルトはRM_CENTER
      * - RM_CENTER: 長方形の中心
      * - RM_TOPLEFT: 左上
