@@ -11,7 +11,21 @@ class Collider {
      */
     constructor(r) {
         this._rect = r;
+        this._x_offset = 0;
+        this._y_offset = 0;
         this._c_type = _HIT_NONE;
+    }
+    
+    /**
+     * 当たり判定位置の原点からのオフセットを設定します。
+     * @param {number} x X座標のオフセット
+     * @param {number} y Y座標のオフセット
+     */
+    setOffset(x, y) {
+        this._x_offset = x;
+        this._y_offset = y;
+        this._rect.setPositionAndMode(this._x_offset, thi._y_offset);
+        this._rect.recalculate();
     }
 
     /**
