@@ -5,7 +5,10 @@ var _log_output;
 
 // System
 var _is_init = false;
+var _is_ok_to_start = true;
+var _is_started = false;
 var _is_running = true;
+var _is_game_stop = false;
 var _t_fstart = 0;
 var _t_fend = 0;
 var _frame_count = 0;
@@ -42,18 +45,38 @@ function ClearLog() {
  * このAPIが呼ばれると、次のフレームの開始直前で実行が一時停止されます。
  */
 function RequestPause() {
-    _is_running = false;
-    _start_button.innerHTML = "スタート";
-    DebugLog("[INFO]: RequestPause(): 次のフレーム開始前で停止します。");
+    if(_is_init) {
+        _is_running = false;
+        _start_button.innerHTML = "スタート";
+        DebugLog("[INFO]: RequestPause(): 次のフレーム開始前で停止します。");
+    } else {
+        _is_ok_to_start = false;
+        _start_button.innerHTML = "スタート";
+        DebugLog("[INFO]: RequestPause(): start()の実行直前で停止します。");
+    }
 }
 
 /**
  * ゲームの実行を再開します。
  */
 function RequestResume() {
-    _is_running = true;
-    _start_button.innerHTML = "ストップ";
+    if(_is_ok_to_start) {
+        _is_running = true;
+        _start_button.innerHTML = "ストップ";
+    } else {
+        _is_ok_to_start = true;
+        if(_is_running) {
+            _start_button.innerHTML = "ストップ";
+        }
+    }
     DebugLog("[INFO]: RequestResume(): 再開。");
+}
+
+/**
+ * 現在のフレームを描画したあとに停止します。
+ */
+function StopGame() {
+    _is_game_stop = true;
 }
 
 // Initialization
@@ -123,7 +146,7 @@ function _onStartButtonMouseUp(e) {
     }
 
     if(typeof e === 'object' && e.button == 0) {
-        if(_is_running) {
+        if(_is_ok_to_start && _is_running) {
             RequestPause();
         } else {
             RequestResume();
@@ -163,15 +186,23 @@ function setup() {
     DebugLog("[OKAY]: 初期化が完了しました。");
     _is_init = true;
 
-    // Execute start function
-    DebugLog("[INFO]: start()を実行しています...");
-    start();
-    DebugLog("[OKAY]: start()を完了しました。");
     DebugLog("[OKAY]: setup()完了。");
     DebugLog("[INFO]: メインループの実行を開始します。");
 }
 
 function draw() {
+    // start()
+    if(!_is_started) {
+        if(!_is_ok_to_start) {
+            return;
+        }
+        // Execute start function
+        DebugLog("[INFO]: start()を実行しています...");
+        start();
+        _is_started = true;
+        DebugLog("[OKAY]: start()を完了しました。");
+    }
+
     // Get frame end time and calculate delta time
     _t_fend = millis();
     _delta_time = (_t_fend - _t_fstart) / 1000;
@@ -191,20 +222,30 @@ function draw() {
             // Increment frame counter
             _frame_count += 1;
         }
+
+        // Check if StopGame() was called
+        if(_is_game_stop) {
+            _is_game_stop = false;
+            _is_running = false;
+            _start_button.innerHTML = "スタート";
+            DebugLog("[INFO]: ゲーム終了。");
+            return;
+        }
     
         // Update
-        // Lock input states
-        _lock_key_input_state();
-        _lock_mouse_input_state();
-        // Update states
-        update();
-
+        // Sample input states
+        _sample_key_input_state();
+        _sample_mouse_input_state();
         // Update previous input state
         _rotate_key_input_state();
         _rotate_mouse_input_state();
-        // Unlock input states
-        _unlock_key_input_state();
-        _unlock_mouse_input_state();
+        // Update states
+        update();
+
+        // Recheck input states
+        _recheck_key_input_state();
+        _recheck_mouse_input_state();
+
         // Delay
     }
 }
