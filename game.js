@@ -89,6 +89,8 @@ function init() {
     snd_gover = loadSound("assets/soft-003.wav");
     snd_clear = loadSound("assets/clear.mp3");
     snd_spawn = loadSound("assets/spawn.mp3");
+
+    RequestPause();
 }
 
 function start() {
@@ -277,7 +279,7 @@ function update() {
         if(blocks[x + 11 * 8] != -1) {
             // フラグを立てて、ゲームループを停止する
             is_gameover = true;
-            RequestPause();
+            StopGame();
             // BGM停止、ジングル再生
             snd_bgm.pause();
             snd_gover.play();
@@ -336,7 +338,7 @@ function render() {
   
     // ゲームオーバー時メッセージ
     if(is_gameover) {
-        textSize(72);
+        textSize(48);
         fill(0, 0, 0);
         stroke(0, 0, 0);
         text("げーむおばー", 500, 300);
