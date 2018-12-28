@@ -1,4 +1,32 @@
-// -1: 壁、0: 何もない、1: 赤、2: 青、3: 緑、4: 黄色
+class Block extends Character {
+    constructor(r, col) {
+        var block_renderer;
+        switch(col) {
+            case -1:
+                block_renderer = new RectRenderer(null, color(128, 128, 128), color(0, 0, 0));
+                break;
+            case 1:
+                block_renderer = new RectRenderer(null, color(255, 0, 0), color(0, 0, 0));
+                break;
+            case 2:
+                block_renderer = new RectRenderer(null, color(0, 0, 255), color(0, 0, 0));
+                break;
+            case 3:
+                block_renderer = new RectRenderer(null, color(0, 255, 0), color(0, 0, 0));
+                break;
+            case 4:
+                block_renderer = new RectRenderer(null, color(255, 255, 0), color(0, 0, 0));
+                break;
+        }
+        super(r, block_renderer);
+
+        this._kind = col;
+        this.applyRectToRenderer();
+    }
+}
+
+// null: 何もない、class Block: ある
+// kind: -1: 壁、1: 赤、2: 青、3: 緑、4: 黄色
 var blocks = new Array(8 * 12);    // フィールドサイズ 6x10
 
 // 選択されているブロックのフラグ（探索済みフラグを兼ねる）
