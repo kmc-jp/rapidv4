@@ -6,6 +6,7 @@ var _log_output;
 // System
 var _is_init = false;
 var _is_running = true;
+var _is_game_stop = false;
 var _t_fstart = 0;
 var _t_fend = 0;
 var _frame_count = 0;
@@ -54,6 +55,13 @@ function RequestResume() {
     _is_running = true;
     _start_button.innerHTML = "ストップ";
     DebugLog("[INFO]: RequestResume(): 再開。");
+}
+
+/**
+ * 現在のフレームを描画したあとに停止します。
+ */
+function StopGame() {
+    _is_game_stop = true;
 }
 
 // Initialization
@@ -190,6 +198,15 @@ function draw() {
             render();
             // Increment frame counter
             _frame_count += 1;
+        }
+
+        // Check if StopGame() was called
+        if(_is_game_stop) {
+            _is_game_stop = false;
+            _is_running = false;
+            _start_button.innerHTML = "スタート";
+            DebugLog("[INFO]: ゲーム終了。");
+            return;
         }
     
         // Update
