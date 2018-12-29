@@ -3,8 +3,13 @@
 // なお、アンダースコア"_"から始まる変数はrapidv4で予約されているので、グローバル変数名に使わないようにしてください。
 // さらに、p5.jsですでに使われている名前もあるので注意（p5.jsのReferenceになさそうな名前ならOK）。
 
-var moji_character;
-var moji_rotation = 0;
+// 画像データ
+var rocket_img;
+var meteor_img;
+
+// Character
+var rocket;
+var meteor;
 
 // グローバル変数宣言ここまで
 
@@ -13,16 +18,44 @@ var moji_rotation = 0;
 // このあたりに（必要ならば）classおよびコンストラクタの定義を書きます。
 
 // Tips: クラスのメンバあるいはローカル変数はアンダースコアで始まってもたいてい問題ない
-class MyMoji extends Character {
-    constructor(x, y, mojiretsu) {
-	super(x, y,
-	      new TextRenderer(
-		  mojiretsu,
-		  new Rect(0, 0),
-		  color(255, 255, 255),
-		  color(255, 255, 255)
-	      )
-	);
+class Rocket extends Character {
+    constructor(x, y) {
+        super(x, y,
+            new ImageRenderer(rocket_img, new Rect(0, 0)),
+            new RectCollider(new Rect(0, 0, 16, 16))
+            );
+        
+        // Rocketの速度
+        this._vel_x = 0;
+        this._vel_y = 0;
+    }
+
+    update() {
+        // キー入力から速度を決定する
+        if(GetKey("Left")) {
+            this._vel_x = -48;
+        } else if(GetKey("Right")) {
+            this._vel_x = 48;
+        } else {
+            this._vel_x = 0;
+        }
+        // Y軸は画面下方向が正なので注意
+        if(GetKey("Up")) {
+            this._vel_y = -48;
+        } else if(GetKey("Down")) {
+            this._vel_y = 48;
+        } else {
+            this._vel_y = 0;
+        }
+    }
+}
+
+class Meteor extends Character {
+    constructor(x, y) {
+        super(x, y,
+            new ImageRenderer(meteor_img, new Rect(0, 0)),
+            new CircleCollider(new Rect(0, 0, meteor_img.width))
+            );
     }
 }
 
@@ -45,6 +78,8 @@ function init() {
     //SetBackgroundColor(color(0, 0, 0));
 
     // ここでloadImage/SoundやAddKeyなどを行う
+    rocket_img = loadImage("assets/rocket.png");
+    meteor_img = loadImage("assets/meteor.png");
 
     // init()でこれを呼ぶと、「スタート」を押すまでstart()やupdate()が呼ばれない
     RequestPause();
@@ -61,7 +96,13 @@ function start() {
     // 文字サイズを指定
     textSize(48);
 
-    moji_character = new MyMoji(GetCanvasWidth()/2, GetCanvasHeight()/2, "光速詠唱");
+    rocket = new Rocket(100, 100);
+    meteor = new Meteor(200, 200);
+
+    AddKey(38, "Up");
+    AddKey(40, "Down");
+    AddKey(37, "Left");
+    AddKey(39, "Right");
 }
 
 /**
@@ -71,8 +112,11 @@ function start() {
 * あ、ここで描画処理をすることはおすすめしません。
 */
 function update() {
-    moji_rotation += TWO_PI * 0.25 * GetDeltaTime();
-    moji_character.renderer.setRotation(moji_rotation);
+    rocket.update();
+
+    if(rocket.isHitBy(meteor)) {
+        StopGame();
+    }
 }
 
 /**
@@ -81,5 +125,10 @@ function update() {
 * この関数内では、SetDeltaTime()がちゃんとした値を返してくれます。逆に、入力系の関数は正しい結果を返してくれません。
 */
 function render() {
-    moji_character.render();
+    // Rocketの位置を更新する
+    rocket.setPosition(rocket._pos_x + rocket._vel_x * GetDeltaTime(), 
+    rocket._pos_y + rocket._vel_y * GetDeltaTime());
+    rocket.render();
+
+    meteor.render();
 }
