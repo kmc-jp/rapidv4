@@ -14,8 +14,8 @@ var moji_rotation = 0;
 
 // Tips: クラスのメンバあるいはローカル変数はアンダースコアで始まってもたいてい問題ない
 class MyMoji extends Character {
-    constructor(r, mojiretsu) {
-	super(r,
+    constructor(x, y, mojiretsu) {
+	super(x, y,
 	      new TextRenderer(
 		  mojiretsu,
 		  new Rect(0, 0),
@@ -61,7 +61,7 @@ function start() {
     // 文字サイズを指定
     textSize(48);
 
-    moji_character = new MyMoji(new Rect(GetCanvasWidth()/2, GetCanvasHeight()/2), "光速詠唱");
+    moji_character = new MyMoji(GetCanvasWidth()/2, GetCanvasHeight()/2, "光速詠唱");
 }
 
 /**
