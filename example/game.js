@@ -51,11 +51,13 @@ class Rocket extends Character {
 }
 
 class Meteor extends Character {
-    constructor(x, y) {
+    constructor(x, y, vel) {
         super(x, y,
             new ImageRenderer(meteor_img, new Rect(0, 0)),
             new CircleCollider(new Rect(0, 0, meteor_img.width))
             );
+
+        this._vel = vel;
     }
 }
 
@@ -97,7 +99,7 @@ function start() {
     textSize(48);
 
     rocket = new Rocket(100, 100);
-    meteor = new Meteor(200, 200);
+    meteor = new Meteor(200, 200, 72);
 
     AddKey(38, "Up");
     AddKey(40, "Down");
@@ -130,5 +132,6 @@ function render() {
     rocket._pos_y + rocket._vel_y * GetDeltaTime());
     rocket.render();
 
+    meteor.setPosition(meteor._pos_x - meteor._vel * GetDeltaTime(), meteor._pos_y);
     meteor.render();
 }
